@@ -10,9 +10,16 @@
 
 #import "BDAlias.h"
 
+#if !defined(CF_RETURNS_RETAINED)
+#if defined(__clang__)
+#define CF_RETURNS_RETAINED __attribute__((cf_returns_retained))
+#else
+#define CF_RETURNS_RETAINED
+#endif
+#endif
 
 static Handle DataToHandle(CFDataRef inData);
-static CFDataRef HandleToData(Handle inHandle);
+static CFDataRef HandleToData(Handle inHandle) CF_RETURNS_RETAINED;
 
 static OSStatus PathToFSRef(CFStringRef inPath, FSRef *outRef);
 static CFStringRef FSRefToPathCopy(const FSRef *inRef);
